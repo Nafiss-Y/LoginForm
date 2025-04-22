@@ -18,6 +18,7 @@
             type="email"
             id="email"
             v-model="email"
+            @input="validateEmail"
             class="form-input"
             placeholder="Email"
             required
@@ -25,6 +26,7 @@
           <input
             type="password"
             id="password"
+            @input="validatePassword"
             v-model="password"
             class="form-input"
             required
@@ -61,16 +63,31 @@ const logout = () => {
   error.value = '';
 }
 
+const validateEmail = () => {
+  const emailForm = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailForm.test(email.value)) {
+    error.value = 'Invalid email format!';
+  } else {
+    error.value = '';
+  }
+};
+
+const validatePassword = () => {
+  if (password.value.length < 7) {
+    error.value = 'Password must be at least 8 characters long!';
+  } else {
+    error.value = '';
+  }
+};
+
 const handleSubmit = () => {
   error.value = '';
-  
   if (email.value === correctEmail && password.value === correctPassword) {
-    console.log('Login successful!');
     isLoggedIn.value = true;
     error.value = '';
-  } else {
+  }
+  else if (error.value === '') {
     error.value = 'Invalid email or password. Please try again.'
-    console.log(error.value);
   }
 }
 </script>
