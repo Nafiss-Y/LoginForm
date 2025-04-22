@@ -73,7 +73,7 @@ const validateEmail = () => {
 };
 
 const validatePassword = () => {
-  if (password.value.length < 7) {
+  if (password.value.length < 8) {
     error.value = 'Password must be at least 8 characters long!';
   } else {
     error.value = '';
