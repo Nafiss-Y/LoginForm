@@ -86,7 +86,7 @@ const handleSubmit = () => {
     isLoggedIn.value = true;
     error.value = '';
   }
-  else if (error.value === '') {
+  else {
     error.value = 'Invalid email or password. Please try again.'
   }
 }
