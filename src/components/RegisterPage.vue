@@ -1,10 +1,5 @@
 <template>
     <div class="login-container">
-      <div v-if="isRegistered" class="welcome-message">
-        <h2>Success!</h2>
-        <p>Your account has been created</p>
-        <button @click="logout" class="logout-button">Back</button>
-      </div>
       <div v-if="!isRegistered">
         <h2 class="login-title">Register</h2>
         <p>Create your account</p>
@@ -55,8 +50,13 @@
   
   <script setup>
   import { ref } from 'vue'
-  import { RouterLink } from 'vue-router'
+  import { RouterLink, useRouter  } from 'vue-router'
+  import { useUserStore } from '../Store.js'
   
+
+  const router = useRouter();
+  const userStore = useUserStore();
+
   const email = ref('');
   const password = ref('');
   const confirmPassword = ref('');
@@ -114,7 +114,16 @@
       return;
     }
     
-    isRegistered.value = true;
+    const result = userStore.registerUser(email.value, password.value);
+  
+    if (result.success){
+      router.push({ 
+        path: '/login', 
+        query: { registered: 'success' }
+      });
+    }
+    else 
+      error.value = result.message;
   }
   </script>
 
