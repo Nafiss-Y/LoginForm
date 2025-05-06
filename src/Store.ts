@@ -3,14 +3,11 @@ import { ref, computed } from 'vue'
 
 export const useUserStore = defineStore('user', () => {
 
-  const users = ref([])
-  const currentUser = ref(null)
-  const isAuthenticated = ref(false)
-
-  const loggedIn = computed(() => isAuthenticated.value)
-  const userInfo = computed(() => currentUser.value)
+  const users = ref<Array<{id: string, email: string, password: string}>>([])
+  const currentUser = ref<{id: string, email: string} | null>(null)
+  const isAuthenticated = ref<boolean>(false)
   
-  function registerUser(email, password) {
+  const registerUser = (email: string, password: string): { success: boolean, message: string } => {
     const existingUser = users.value.find(user => user.email === email)
     
     if (existingUser) {
@@ -28,10 +25,10 @@ export const useUserStore = defineStore('user', () => {
     return { success: true, message: 'Registration successful' }
   }
   
-  function login(email, password) {
+  const login = (email: string, password: string): { success: boolean, message: string } => {
     const user = users.value.find(user => user.email === email)
 
-    if (user && user.password === password) {
+    if (user?.password === password) {
       currentUser.value = {
         id: user.id,
         email: user.email
@@ -44,7 +41,7 @@ export const useUserStore = defineStore('user', () => {
     return { success: false, message: 'Invalid email or password' }
   }
   
-  function logout() {
+  const logout = (): void => {
     currentUser.value = null
     isAuthenticated.value = false
   }
@@ -53,8 +50,6 @@ export const useUserStore = defineStore('user', () => {
     users, 
     currentUser, 
     isAuthenticated, 
-    loggedIn, 
-    userInfo, 
     registerUser, 
     login, 
     logout 
