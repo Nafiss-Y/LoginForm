@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 
 export const useUserStore = defineStore('user', () => {
 
-  const users = ref<Array<{id: string, email: string, password: string}>>([])
+  const users = ref<{id: string, email: string, password: string}[]>([])
   const currentUser = ref<{id: string, email: string} | null>(null)
   const isAuthenticated = ref<boolean>(false)
   
